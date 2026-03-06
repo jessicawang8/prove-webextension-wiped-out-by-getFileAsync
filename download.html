@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Download</title>
+	<style>
+		body { font-family: -apple-system, sans-serif; padding: 20px; text-align: center; }
+		a.download-link {
+			display: inline-block;
+			margin-top: 10px;
+			padding: 10px 24px;
+			background: #0078d4;
+			color: white;
+			text-decoration: none;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+		a.download-link:hover { background: #106ebe; }
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script>
+		const content = document.getElementById('content');
+		const params = new URLSearchParams(window.location.hash.substring(1));
+		const base64Data = params.get('data');
+
+		if (base64Data) {
+			const byteCharacters = atob(base64Data);
+			const byteNumbers = new Uint8Array(byteCharacters.length);
+			for (let i = 0; i < byteCharacters.length; i++) {
+				byteNumbers[i] = byteCharacters.charCodeAt(i);
+			}
+			const blob = new Blob([byteNumbers], {
+				type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			});
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = 'test.docx';
+			link.className = 'download-link';
+			link.textContent = 'Click here to download test.docx';
+			content.innerHTML = '<p>Your file is ready:</p>';
+			content.appendChild(link);
+		} else {
+			content.innerHTML = '<p>Error: No data received.</p>';
+		}
+	</script>
+</body>
+</html>
