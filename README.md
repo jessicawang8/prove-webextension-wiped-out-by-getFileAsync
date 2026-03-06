@@ -1,4 +1,4 @@
-# prove-webextension-wiped-out-by-getFileAsync
+## Goal
 
 Prove that the webextensions folder in a Word document is being wiped out by `getFileAsync` in Office.js.
 
